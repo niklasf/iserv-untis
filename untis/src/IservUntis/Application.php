@@ -18,8 +18,8 @@ class Application extends SilexApplication
             'twig.path' => __DIR__ . '/../../views/',
         ));
 
-        $this->get('/schedule/', 'IservUntis\ScheduleController::index');
-        $this->get('/schedule/{class}', 'IservUntis\ScheduleController::schedule');
+        $this->get('/schedule/', 'IservUntis\ScheduleController::renderClassIndex');
+        $this->get('/schedule/{filter}/{by}', 'IservUntis\ScheduleController::renderSchedule');
 
         $this['debug'] = true;
     }
