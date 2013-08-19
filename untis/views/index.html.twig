@@ -1,0 +1,36 @@
+<h1>Stundenpläne</h1>
+
+{% if classes or teachers or rooms %}
+  <h2>Klassen</h2>
+
+  <table>
+    {% for year in classes %}
+      <tr>
+        {% for class in year %}
+          <td><a href="class/{{ class | url_encode }}">{{ class|e }}</a></td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Räume</h2>
+
+  <table>
+  </table>
+{% else %}
+  <p>Momentan sind keine Stundenpläne vorhanden.</p>
+{% endif %}
+
+<h1>Pausenaufsichten</h1>
+
+{% if halls %}
+  <table>
+    <tr>
+      {% for hall in halls %}
+        {{ hall|e }}
+      {% endfor %}
+    </tr>
+  </table>
+{% else %}
+  <p>Momentan sind keine Aufsichtspläne vorhanden.</p>
+{% endif %}
