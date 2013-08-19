@@ -21,7 +21,7 @@ class Application extends SilexApplication
         $this->get('/class/{name}', 'IservUntis\ScheduleController::renderClassSchedule');
         $this->get('/room/{name}', 'IservUntis\ScheduleController::renderRoomSchedule');
         $this->get('/teacher/{name}', 'IservUntis\ScheduleController::renderTeacherSchedule');
-        $this->get('/hall/{name}', 'IservUntis\HallController::renderHallSchedule');
+        $this->get('/hall/{hall}', 'IservUntis\HallController::renderSchedule');
 
         $this['debug'] = true;
     }
