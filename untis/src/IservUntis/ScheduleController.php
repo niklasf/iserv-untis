@@ -52,7 +52,8 @@ class ScheduleController
         ));
     }
 
-    public function schedule(Request $request, Application $app, $class) {
+    public function schedule(Request $request, Application $app, $class)
+    {
         $schedule = array();
 
         foreach ($this->records as $record) {
@@ -63,6 +64,10 @@ class ScheduleController
                     'room' => $record['room'],
                 );
             }
+        }
+
+        if (!$schedule) {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         return $app->render('schedule.html.twig', array(
