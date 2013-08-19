@@ -34,7 +34,8 @@ class ScheduleController
         }
     }
 
-    public function getLastChange() {
+    public function getLastChange()
+    {
         return $this->lastChange;
     }
 
