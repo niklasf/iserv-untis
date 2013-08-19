@@ -10,6 +10,8 @@ class ScheduleController
     {
         $this->records = array();
 
+        $this->last_change = filemtime("/var/untis/GPU001.TXT");
+
         $handle = fopen("/var/untis/GPU001.TXT", "r");
         if ($handle) {
             while ($data = fgetcsv($handle)) {
@@ -23,6 +25,7 @@ class ScheduleController
                     'slot' => intval($data[6]),
                 );
             }
+            fclose($handle);
         }
     }
 
@@ -44,8 +47,28 @@ class ScheduleController
             ksort($year);
         }
 
-        return $app->render('schedule.html.twig', array(
+        return $app->render('schedule-index.html.twig', array(
             'matrix' => $matrix
+        ));
+    }
+
+    public function schedule(Request $request, Application $app, $class) {
+        $schedule = array();
+
+        foreach ($this->records as $record) {
+            if ($record['class'] == $class) {
+                $schedule[$record['slot']][$record['day']][] = array(
+                    'subject' => $record['subject'],
+                    'teacher' => $record['teacher'],
+                    'room' => $record['room'],
+                );
+            }
+        }
+
+        return $app->render('schedule.html.twig', array(
+            'class' => $class,
+            'schedule' => $schedule,
+            'last_change' => $this->last_change,
         ));
     }
 }

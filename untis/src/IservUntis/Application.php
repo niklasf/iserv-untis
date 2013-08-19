@@ -19,6 +19,7 @@ class Application extends SilexApplication
         ));
 
         $this->get('/schedule/', 'IservUntis\ScheduleController::index');
+        $this->get('/schedule/{class}', 'IservUntis\ScheduleController::schedule');
 
         $this['debug'] = true;
     }
