@@ -105,27 +105,38 @@ class ScheduleController
         return $schedule;
     }
 
-    public function renderSchedule(Request $request, Application $app, $filter, $by)
+    public function renderClassSchedule(Request $request, Application $app, $name)
     {
-        switch ($filter) {
-        case 'class':
-            $title = sprintf('Stundenplan Klasse %s', $by);
-            $columns = array('subject', 'teacher', 'room');
-            break;
-        case 'teacher':
-            $title = sprintf('Stundenplan %s', $by);
-            $columns = array('class', 'subject', 'room');
-            break;
-        case 'room':
-            $title = sprintf('Stundenplan Raum %s', $by);
-            $columns = array('class', 'subject', 'teacher');
-            break;
+        return $app->render('schedule.html.twig', array(
+            'title' => sprintf('Klasse %s', $name),
+            'columns' => array('subject', 'teacher', 'room'),
+            'schedule' => $this->getFilteredSchedule('class', $name),
+            'last_change' => $this->getLastChange(),
+        ));
+    }
+
+    public function renderRoomSchedule(Request $request, Application $app, $name)
+    {
+        if (ctype_digit($name)) {
+            $title = sprintf('Raum %s', $name);
+        } else {
+            $title = $name;
         }
 
         return $app->render('schedule.html.twig', array(
             'title' => $title,
-            'columns' => $columns,
-            'schedule' => $this->getFilteredSchedule($filter, $by),
+            'columns' => array('teacher', 'class', 'subject'),
+            'schedule' => $this->getFilteredSchedule('room', $name),
+            'last_change' => $this->getLastChange(),
+        ));
+    }
+
+    public function renderTeacherSchedule(Request $request, Application $app, $name)
+    {
+        return $app->render('schedule.html.twig', array(
+            'title' => sprintf('Studenplan %s', $name),
+            'columns' => array('class', 'subject', 'room'),
+            'schedule' => $this->getFilteredSchedule('teacher', $name),
             'last_change' => $this->getLastChange(),
         ));
     }
