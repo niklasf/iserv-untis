@@ -1,7 +1,9 @@
 {
     "require": {
         "silex/silex": "~1.0",
-        "twig/twig": "1.*"
+        "twig/twig": "1.*",
+        "symfony/security": "~2.3",
+        "symfony/twig-bridge": "~2.3"
     },
     "autoload": {
         "psr-0": {
