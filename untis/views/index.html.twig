@@ -1,57 +1,64 @@
 <h1>Stundenpläne</h1>
 
-{% if classes or teachers or rooms %}
-  <h2>Klassen</h2>
+{% if classes|default is not empty or teachers|default is not empty or rooms|default is not empty %}
+  {% if classes is defined %}
+    <h2>Klassen</h2>
 
-  <table>
-    {% for year in classes %}
-      <tr>
-        {% for class in year %}
-          <td><a href="class/{{ class|url_encode }}">{{ class|e }}</a></td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
+    <table>
+      {% for year in classes %}
+        <tr>
+          {% for class in year %}
+            <td><a href="{{ app.url_generator.generate('class', { name: class }) }}">{{ class|e }}</a></td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
 
-  <h2>Räume</h2>
+  {% if rooms is defined %}
+    <h2>Räume</h2>
 
-  <table>
-    {% for row in rooms %}
-      <tr>
-        {% for room in row %}
-          <td><a href="room/{{ room|url_encode }}">{{ room|e }}</a></td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
+    <table>
+      {% for row in rooms %}
+        <tr>
+          {% for room in row %}
+            <td><a href="{{ app.url_generator.generate('room', { name: room }) }}">{{ room|e }}</a></td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
 
-  <h2>Lehrer</h2>
+  {% if teachers is defined %}
+    <h2>Lehrer</h2>
 
-  <table>
-    {% for row in teachers %}
-      <tr>
-        {% for teacher in row %}
-          <td><a href="teacher/{{ teacher|url_encode }}">{{ teacher|e }}</a></td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
+    <table>
+      {% for row in teachers %}
+        <tr>
+          {% for teacher in row %}
+            <td><a href="{{ app.url_generator.generate('teacher', { name: teacher }) }}">{{ teacher|e }}</a></td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
 {% else %}
   <p>Momentan sind keine Stundenpläne vorhanden.</p>
 {% endif %}
 
-<h1>Pausenaufsichten</h1>
-
-{% if halls %}
-  <table>
-    <tr>
-      {% for hall in halls %}
-        <td>
-          <a href="hall/{{ hall|url_encode }}">{{ hall|e }}</a>
-        </td>
-      {% endfor %}
-    </tr>
-  </table>
-{% else %}
-  <p>Momentan sind keine Aufsichtspläne vorhanden.</p>
+{% if halls is defined %}
+  <h1>Pausenaufsichten</h1>
+  {% if halls %}
+    <table>
+      <tr>
+        {% for hall in halls %}
+          <td>
+            <a href="{{ app.url_generator.generate('hall', { hall: hall }) }}">{{ hall|e }}</a>
+          </td>
+        {% endfor %}
+      </tr>
+    </table>
+  {% else %}
+    <p>Momentan sind keine Aufsichtspläne vorhanden.</p>
+  {% endif %}
 {% endif %}

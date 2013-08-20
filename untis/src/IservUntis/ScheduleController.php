@@ -45,8 +45,10 @@ class ScheduleController
 
         // Group classes by year.
         foreach ($this->records as $record) {
-            $year = intval($record['class']);
-            $matrix[$year][$record['class']] = $record['class'];
+            if ($record['class']) {
+                $year = intval($record['class']);
+                $matrix[$year][$record['class']] = $record['class'];
+            }
         }
 
         // Sort by year.
@@ -66,8 +68,10 @@ class ScheduleController
 
         // Group rooms by the first two letters.
         foreach ($this->records as $record) {
-            $group = substr($record['room'], 0, 2);
-            $matrix[$group][$record['room']] = $record['room'];
+            if ($record['room']) {
+                $group = substr($record['room'], 0, 2);
+                $matrix[$group][$record['room']] = $record['room'];
+            }
         }
 
         // Sort by group.

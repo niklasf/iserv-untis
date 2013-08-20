@@ -5,18 +5,18 @@ namespace IservUntis;
 use Silex\Application as SilexApplication;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\SecurityServiceProvider;
-
+use Silex\Provider\UrlGeneratorServiceProvider;
 
 class Application extends SilexApplication
 {
     use \Silex\Application\TwigTrait;
-//    use \Silex\Application\SecurityTrait;
-//    use \Silex\Route\SecurityTrait;
 
     public function __construct()
     {
         parent::__construct();
         $app = $this;
+
+        $app->register(new UrlGeneratorServiceProvider());
 
         $app->register(new TwigServiceProvider(), array(
             'twig.path' => __DIR__ . '/../../views/',
@@ -53,16 +53,21 @@ class Application extends SilexApplication
             ),
         ));
 
-        $app->get('/', 'IservUntis\IndexController::renderIndex');
+        $app->get('/', 'IservUntis\IndexController::renderIndex')
+            ->bind('index');
 
-        $app->get('/class/{name}', 'IservUntis\ScheduleController::renderClassSchedule');
+        $app->get('/class/{name}', 'IservUntis\ScheduleController::renderClassSchedule')
+            ->bind('class');
 
-        $app->get('/room/{name}', 'IservUntis\ScheduleController::renderRoomSchedule');
+        $app->get('/room/{name}', 'IservUntis\ScheduleController::renderRoomSchedule')
+            ->bind('room');
 
         $app->get('/teacher/{name}', 'IservUntis\ScheduleController::renderTeacherSchedule')
-             ->secure('ROLE_TEACHER');
+            ->bind('teacher')
+            ->secure('ROLE_TEACHER');
 
         $app->get('/hall/{hall}', 'IservUntis\HallController::renderSchedule')
-             ->secure('ROLE_TEACHER');
+            ->bind('hall')
+            ->secure('ROLE_TEACHER');
     }
 }
