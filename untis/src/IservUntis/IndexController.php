@@ -19,7 +19,7 @@ class IndexController
 
     public function renderIndex(Request $request, Application $app)
     {
-        if ($app['security']->isGranted('teacher')) {
+        if ($app['security']->isGranted('ROLE_TEACHER')) {
             return $app->render('index.html.twig', array(
                 'classes' => $this->scheduleController->getClassIndex(),
                 'rooms' => $this->scheduleController->getRoomIndex(),
@@ -27,7 +27,10 @@ class IndexController
                 'halls' => $this->hallController->getHallIndex(),
             ));
         } else {
-            return "not a teacher.";
+            print '<pre>';
+            print_r($app['security']->getToken());
+            print '</pre>';
+            return;
         }
     }
 }

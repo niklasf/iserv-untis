@@ -4,6 +4,7 @@ namespace IservUntis;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 
@@ -30,6 +31,7 @@ class IservAuthenticationListener implements ListenerInterface
             $authToken = $this->authenticationManager->authenticate($token);
             $this->securityContext->setToken($authToken);
         } catch (AuthenticationException $failed) {
+            print_r($failed);
             $response = Response();
             $response->setStatusCode(403);
             $event->setResponse($response);

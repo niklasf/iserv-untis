@@ -10,6 +10,7 @@ use Silex\Provider\SecurityServiceProvider;
 class Application extends SilexApplication
 {
     use \Silex\Application\TwigTrait;
+    use \Silex\Application\SecurityTrait;
 
     public function __construct()
     {
@@ -41,14 +42,14 @@ class Application extends SilexApplication
         $this->register(new SecurityServiceProvider(), array(
             'security.firewalls' => array(
                 'default' => array(
+                    'stateless' => true,
                     'iserv' => true,
+                    'users' => $app->share(function () {
+                        return new IservUserProvider();
+                    }),
                 ),
             ),
         ));
-        /*    'users' => $app->share(function () use ($app) {
-                return new IservUserProvider();
-            }),
-    )); */
 
         $this->get('/', 'IservUntis\IndexController::renderIndex');
 
