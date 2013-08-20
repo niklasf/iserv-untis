@@ -46,7 +46,9 @@
   <table>
     <tr>
       {% for hall in halls %}
-        {{ hall|e }}
+        <td>
+          <a href="hall/{{ hall|url_encode }}">{{ hall|e }}</a>
+        </td>
       {% endfor %}
     </tr>
   </table>
