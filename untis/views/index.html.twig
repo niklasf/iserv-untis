@@ -8,7 +8,7 @@
       {% for year in classes %}
         <tr>
           {% for class in year %}
-            <td><a href="{{ app.url_generator.generate('class', { name: class }) }}">{{ class|e }}</a></td>
+            <td><a href="{{ path('class', { name: class }) }}">{{ class|e }}</a></td>
           {% endfor %}
         </tr>
       {% endfor %}
@@ -22,7 +22,7 @@
       {% for row in rooms %}
         <tr>
           {% for room in row %}
-            <td><a href="{{ app.url_generator.generate('room', { name: room }) }}">{{ room|e }}</a></td>
+            <td><a href="{{ path('room', { name: room }) }}">{{ room|e }}</a></td>
           {% endfor %}
         </tr>
       {% endfor %}
@@ -36,7 +36,7 @@
       {% for row in teachers %}
         <tr>
           {% for teacher in row %}
-            <td><a href="{{ app.url_generator.generate('teacher', { name: teacher }) }}">{{ teacher|e }}</a></td>
+            <td><a href="{{ path('teacher', { name: teacher }) }}">{{ teacher|e }}</a></td>
           {% endfor %}
         </tr>
       {% endfor %}
@@ -53,7 +53,7 @@
       <tr>
         {% for hall in halls %}
           <td>
-            <a href="{{ app.url_generator.generate('hall', { hall: hall }) }}">{{ hall|e }}</a>
+            <a href="{{ path('hall', { hall: hall }) }}">{{ hall|e }}</a>
           </td>
         {% endfor %}
       </tr>
