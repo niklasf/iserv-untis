@@ -60,13 +60,25 @@ class ScheduleController
         return $matrix;
     }
 
-    public function renderClassIndex(Request $request, Application $app)
+    public function getRoomIndex()
     {
         $matrix = array();
 
-        return $app->render('schedule-index.html.twig', array(
-            'matrix' => $this->getClassIndex()
-        ));
+        // Group rooms by the first two letters.
+        foreach ($this->records as $record) {
+            $group = substr($record['room'], 0, 2);
+            $matrix[$group][$record['room']] = $record['room'];
+        }
+
+        // Sort by group.
+        ksort($matrix, SORT_STRING);
+
+        // Short each row.
+        foreach ($matrix as &$row) {
+            ksort($row);
+        }
+
+        return $matrix;
     }
 
     public function getSchedule()

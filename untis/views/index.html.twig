@@ -16,7 +16,14 @@
   <h2>Räume</h2>
 
   <table>
-  </table>
+    {% for row in rooms %}
+      <tr>
+        {% for room in row %}
+          <td><a href="room/{{ room | url_encode }}">{{ room | e }}</a></td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  <table>
 {% else %}
   <p>Momentan sind keine Stundenpläne vorhanden.</p>
 {% endif %}
