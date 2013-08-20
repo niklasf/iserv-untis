@@ -19,18 +19,16 @@ class IndexController
 
     public function renderIndex(Request $request, Application $app)
     {
+        $render = array(
+            'classes' => $this->scheduleController->getClassIndex(),
+            'rooms' => $this->scheduleController->getRoomIndex(),
+        );
+
         if ($app['security']->isGranted('ROLE_TEACHER')) {
-            return $app->render('index.html.twig', array(
-                'classes' => $this->scheduleController->getClassIndex(),
-                'rooms' => $this->scheduleController->getRoomIndex(),
-                'teachers' => $this->scheduleController->getTeacherIndex(),
-                'halls' => $this->hallController->getHallIndex(),
-            ));
-        } else {
-            print '<pre>';
-            print_r($app['security']->getToken());
-            print '</pre>';
-            return;
+            $render['teachers'] = $this->scheduleController->getTeacherIndex();
+            $render['halls'] = $this->hallController->getHallIndex();
         }
+
+        return $app->render('index.html.twig', $render);
     }
 }

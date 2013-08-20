@@ -10,7 +10,8 @@ use Silex\Provider\SecurityServiceProvider;
 class Application extends SilexApplication
 {
     use \Silex\Application\TwigTrait;
-    use \Silex\Application\SecurityTrait;
+//    use \Silex\Application\SecurityTrait;
+//    use \Silex\Route\SecurityTrait;
 
     public function __construct()
     {
@@ -21,6 +22,8 @@ class Application extends SilexApplication
         $this->register(new TwigServiceProvider(), array(
             'twig.path' => __DIR__ . '/../../views/',
         ));
+
+        $app['route_class'] = 'IservUntis\SecurityRoute';
 
         $app['security.authentication_listener.factory.iserv'] = $app->protect(function ($name, $options) use ($app) {
             $app['security.authentication_provider.' . $name . '.iserv'] = $app->share(function () use ($app) {
@@ -54,10 +57,14 @@ class Application extends SilexApplication
         $this->get('/', 'IservUntis\IndexController::renderIndex');
 
         $this->get('/class/{name}', 'IservUntis\ScheduleController::renderClassSchedule');
-        $this->get('/room/{name}', 'IservUntis\ScheduleController::renderRoomSchedule');
-        $this->get('/teacher/{name}', 'IservUntis\ScheduleController::renderTeacherSchedule');
 
-        $this->get('/hall/{hall}', 'IservUntis\HallController::renderSchedule');
+        $this->get('/room/{name}', 'IservUntis\ScheduleController::renderRoomSchedule');
+
+        $this->get('/teacher/{name}', 'IservUntis\ScheduleController::renderTeacherSchedule')
+             ->secure('ROLE_TEACHER');
+
+        $this->get('/hall/{hall}', 'IservUntis\HallController::renderSchedule')
+             ->secure('ROLE_TEACHER');
 
         $this['debug'] = true;
     }
