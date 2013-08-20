@@ -1,0 +1,30 @@
+<h1>Pausenaufsicht: Bereich {{ hall|e }}</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Vor Std.</th>
+      <th>Montag</th>
+      <th>Dienstag</th>
+      <th>Mittwoch</th>
+      <th>Donnerstag</th>
+      <th>Freitag</th>
+    </tr>
+   </thead>
+   <tbody>
+     {% for slot in range(1, 10) %}
+       <tr>
+         <td>{{ slot }}</td>
+         {% for day in range(1, 5) %}
+           <td>
+             {% if day in schedule|keys and slot in schedule[day]|keys %}
+               {{ schedule[day][slot]['teacher']|e }}
+             {% endif %}
+           </td>
+         {% endfor %}
+       </tr>
+     {% endfor %}
+   </tbody>
+</table>
+
+<p>Stand: {{ last_change|date('d.m.Y H:m') }}</p>

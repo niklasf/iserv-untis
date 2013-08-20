@@ -57,6 +57,7 @@ class HallController
         return $app->render('hall.html.twig', array(
             'hall' => $hall,
             'schedule' => $this->getSchedule($hall),
+            'last_change' => $this->getLastChange(),
         ));
     }
 
