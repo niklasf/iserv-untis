@@ -22,6 +22,7 @@ class IndexController
         return $app->render('index.html.twig', array(
             'classes' => $this->scheduleController->getClassIndex(),
             'rooms' => $this->scheduleController->getRoomIndex(),
+            'teachers' => $this->scheduleController->getTeacherIndex(),
             'halls' => $this->hallController->getHallIndex(),
         ));
     }

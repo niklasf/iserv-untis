@@ -7,7 +7,7 @@
     {% for year in classes %}
       <tr>
         {% for class in year %}
-          <td><a href="class/{{ class | url_encode }}">{{ class|e }}</a></td>
+          <td><a href="class/{{ class|url_encode }}">{{ class|e }}</a></td>
         {% endfor %}
       </tr>
     {% endfor %}
@@ -19,11 +19,23 @@
     {% for row in rooms %}
       <tr>
         {% for room in row %}
-          <td><a href="room/{{ room | url_encode }}">{{ room | e }}</a></td>
+          <td><a href="room/{{ room|url_encode }}">{{ room|e }}</a></td>
         {% endfor %}
       </tr>
     {% endfor %}
+  </table>
+
+  <h2>Lehrer</h2>
+
   <table>
+    {% for row in teachers %}
+      <tr>
+        {% for teacher in row %}
+          <td><a href="teacher/{{ teacher|url_encode }}">{{ teacher|e }}</a></td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
 {% else %}
   <p>Momentan sind keine Stundenpläne vorhanden.</p>
 {% endif %}

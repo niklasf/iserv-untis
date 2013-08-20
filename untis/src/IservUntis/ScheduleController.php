@@ -54,7 +54,7 @@ class ScheduleController
 
         // Sort each row by class.
         foreach ($matrix as &$year) {
-            ksort($year);
+            ksort($year, SORT_STRING);
         }
 
         return $matrix;
@@ -73,9 +73,30 @@ class ScheduleController
         // Sort by group.
         ksort($matrix, SORT_STRING);
 
-        // Short each row.
+        // Sort each row.
         foreach ($matrix as &$row) {
-            ksort($row);
+            ksort($row, SORT_STRING);
+        }
+
+        return $matrix;
+    }
+
+    public function getTeacherIndex()
+    {
+        $matrix = array();
+
+        // Group teachers by the first letter of the lastname.
+        foreach ($this->records as $record) {
+            $group = substr($record['teacher'], 0, 1);
+            $matrix[$group][$record['teacher']] = $record['teacher'];
+        }
+
+        // Sort.
+        ksort($matrix, SORT_STRING);
+
+        // Sort each group.
+        foreach ($matrix as &$row) {
+            ksort($row, SORT_STRING);
         }
 
         return $matrix;
