@@ -18,8 +18,7 @@ class Application extends SilexApplication
         parent::__construct();
         $app = $this;
 
-
-        $this->register(new TwigServiceProvider(), array(
+        $app->register(new TwigServiceProvider(), array(
             'twig.path' => __DIR__ . '/../../views/',
         ));
 
@@ -42,7 +41,7 @@ class Application extends SilexApplication
             );
         });
 
-        $this->register(new SecurityServiceProvider(), array(
+        $app->register(new SecurityServiceProvider(), array(
             'security.firewalls' => array(
                 'default' => array(
                     'stateless' => true,
@@ -54,18 +53,16 @@ class Application extends SilexApplication
             ),
         ));
 
-        $this->get('/', 'IservUntis\IndexController::renderIndex');
+        $app->get('/', 'IservUntis\IndexController::renderIndex');
 
-        $this->get('/class/{name}', 'IservUntis\ScheduleController::renderClassSchedule');
+        $app->get('/class/{name}', 'IservUntis\ScheduleController::renderClassSchedule');
 
-        $this->get('/room/{name}', 'IservUntis\ScheduleController::renderRoomSchedule');
+        $app->get('/room/{name}', 'IservUntis\ScheduleController::renderRoomSchedule');
 
-        $this->get('/teacher/{name}', 'IservUntis\ScheduleController::renderTeacherSchedule')
+        $app->get('/teacher/{name}', 'IservUntis\ScheduleController::renderTeacherSchedule')
              ->secure('ROLE_TEACHER');
 
-        $this->get('/hall/{hall}', 'IservUntis\HallController::renderSchedule')
+        $app->get('/hall/{hall}', 'IservUntis\HallController::renderSchedule')
              ->secure('ROLE_TEACHER');
-
-        $this['debug'] = true;
     }
 }
